@@ -1,0 +1,6 @@
+{
+  "name": "MajiWatch Nairobi",
+  "description": "A collaborative water information and household water-management platform for Nairobi, Kenya, featuring supply notices, SMS accessibility, reserve tracking, and vendor directory.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

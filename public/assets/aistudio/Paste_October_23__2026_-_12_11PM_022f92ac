@@ -1,0 +1,1211 @@
+# MASTER DEVELOPMENT PROMPT: MAJIWATCH
+
+## 1. YOUR ROLE
+
+Act as a senior full-stack software engineer, UI/UX designer, database architect, security engineer, and product designer. Build a complete, responsive, functional web application called **MajiWatch**.
+
+Do not create only a landing page, static mockup, or frontend demonstration. Build a working application with connected frontend components, authentication, database persistence, role-based access, dashboards, forms, validation, and backend functionality.
+
+Where external services require credentials or third-party approval, implement the integration structure, provide clear configuration instructions, and support a safe demonstration mode.
+
+Work systematically. Inspect the existing project before modifying it. If a project already exists, preserve its useful structure and functionality. Do not unnecessarily replace working code or introduce a completely different technology stack without a good reason.
+
+## 2. PROJECT IDENTITY
+
+**Project name:** MajiWatch
+
+**Full title:** A Collaborative Water Information and Household Water-Management Platform for Nairobi.
+
+**Tagline:** Stay Informed. Plan Ahead. Manage Water Better.
+
+**Project type:** Web-based, mobile-responsive water-information and household water-management system with SMS accessibility.
+
+**Initial geographical scope:** Nairobi County, Kenya.
+
+**Primary users:**
+1. Residents and tenants.
+2. Water-service providers and authorised utility representatives.
+3. Property managers and landlords.
+4. Water vendors.
+5. Platform administrators.
+
+The system must be useful to both individuals and organisations.
+
+## 3. PROJECT BACKGROUND AND PROBLEM
+
+Residents in Nairobi can experience planned or unexpected water interruptions and may struggle to obtain timely, reliable information about affected locations, interruption schedules, and expected restoration.
+
+Water information can be distributed across utility announcements, social media, SMS messages, property managers, vendors, and community groups. Residents who do not have consistent internet access may miss website-based updates.
+
+Households also need practical ways to track the water they have stored, estimate how long it will last, manage water-related expenses, and find alternative suppliers during interruptions.
+
+Meanwhile, water-service providers, vendors, and property managers need ways to communicate updates, reach affected residents, manage information, and maintain records of notices and responses.
+
+MajiWatch will address these challenges through a shared information platform combining a web application with an SMS notification channel.
+
+The platform must complement existing water-company systems, not claim to replace them. Do not assume that every water company has agreed to integrate with MajiWatch.
+
+## 4. PRIMARY OBJECTIVES
+
+Build a system that:
+
+- Provides reliable, location-specific water-supply information.
+- Allows authorised organisations to publish and update supply notices.
+- Enables residents to receive relevant alerts through SMS, including users without mobile internet.
+- Provides a household water-reserve tracker and consumption estimates.
+- Helps residents record water expenditure and manage budgets.
+- Provides a directory of alternative water vendors.
+- Allows residents to report water interruptions and related issues.
+- Helps organisations review reports and maintain communication histories.
+- Supports role-based access, security, data protection, and accountability.
+- Can be developed further through partnerships and approved integrations.
+
+## 5. REQUIRED TECHNOLOGY STACK
+
+Use the following stack unless the existing project has a compelling, documented reason to use an equivalent technology.
+
+### Frontend
+- React.
+- TypeScript.
+- Vite.
+- Tailwind CSS.
+- A consistent component library, preferably shadcn/ui where compatible.
+- React Router for navigation.
+- Lucide icons.
+- React Hook Form and Zod for forms and validation where appropriate.
+- Recharts for useful dashboard charts.
+
+### Backend
+- Node.js.
+- Express.
+- TypeScript where practical.
+- REST API with clear route, controller, service, and middleware separation.
+
+### Database and authentication
+- Firebase Authentication for user authentication.
+- Cloud Firestore for application data.
+- Firebase Admin SDK for trusted server-side operations.
+- Firebase Storage only if file uploads are required.
+
+### External services
+- An SMS gateway with a documented API. Design a provider adapter so that the provider can be configured without rewriting the application.
+- A configurable email service if needed for account verification or administrative communication.
+- Git for version control.
+
+Do not expose Firebase Admin credentials, SMS API tokens, or other secrets in frontend code.
+
+Use environment variables and provide `.env.example` files containing placeholders only.
+
+Do not hardcode credentials or invent real API keys.
+
+If the AI coding environment cannot configure Firebase or an SMS provider automatically, create the necessary integration code, documentation, and a clearly labelled demonstration mode.
+
+## 6. DESIGN AND USER EXPERIENCE
+
+Create a polished, modern, professional interface suitable for a Kenyan public-interest technology project.
+
+The application should feel trustworthy, calm, practical, accessible, and easy to use.
+
+### Visual direction
+- Primary colour: deep water blue, such as #176B87.
+- Secondary colour: teal, such as #2A9D8F.
+- Background: soft off-white, such as #F7FAFC.
+- Text: dark slate, such as #263746.
+- Warning: amber.
+- Error: red.
+- Success: green.
+
+Use colours consistently and maintain accessible contrast.
+
+### Design requirements
+- Mobile-first, fully responsive layout.
+- Desktop sidebar for authenticated dashboards.
+- Clear navigation on smaller screens.
+- Well-spaced cards, tables, forms, charts, and status labels.
+- Clear typography and meaningful headings.
+- Helpful empty states, loading states, success messages, and error messages.
+- Confirmation dialogs for destructive actions.
+- Accessible keyboard navigation and labels.
+- No excessive animations, clutter, or unnecessary gradients.
+- Avoid generic placeholder text and meaningless charts.
+- Use realistic demonstration data that is explicitly labelled as demo data.
+- Do not display fake testimonials, fabricated customer numbers, or invented partnerships.
+
+Build a professional public landing page and separate authenticated dashboards.
+
+## 7. PUBLIC LANDING PAGE
+
+Create a polished landing page explaining MajiWatch and its purpose.
+
+Include:
+
+### Navigation
+- MajiWatch logo or text-based brand.
+- Home.
+- How It Works.
+- Features.
+- For Organisations.
+- About.
+- Sign In.
+- Get Started.
+
+### Hero section
+Headline: "Stay Informed. Plan Ahead. Manage Water Better."
+
+Supporting text should explain that MajiWatch connects Nairobi residents and participating water organisations through accessible supply updates, SMS alerts, household planning tools, and alternative-supplier information.
+
+Primary CTA: "Get Started".
+
+Secondary CTA: "Explore Features".
+
+Do not imply that live alerts are available for every Nairobi neighbourhood unless real data supports that claim.
+
+### Other sections
+- The water-information challenge.
+- How MajiWatch works.
+- Features for residents.
+- Features for organisations.
+- SMS accessibility.
+- How verification works.
+- A clear explanation of planned versus reported interruptions.
+- Frequently asked questions.
+- Footer with contact information placeholders, privacy policy, terms, and support links.
+
+Do not invent official endorsements, partner logos, or claims that the system is approved by Nairobi Water or WASREB.
+
+## 8. AUTHENTICATION AND USER ROLES
+
+Implement working authentication using Firebase Authentication.
+
+Required functionality:
+- Registration.
+- Sign in.
+- Sign out.
+- Password reset.
+- Form validation.
+- Authenticated route protection.
+- User profile management.
+- Session persistence.
+- Appropriate loading and error states.
+
+Collect only information needed for the application.
+
+Suggested registration fields:
+- Full name.
+- Email address, where applicable.
+- Phone number for SMS-enabled users.
+- Password.
+- Account type.
+- Preferred area or neighbourhood.
+- Consent to receive SMS alerts, where applicable.
+
+Users without an email address should not be excluded from the overall service concept. For the initial implementation, provide an alternative administrative or assisted-registration workflow, and design authentication so that phone-based access can be added securely. Do not invent a phone number as an email address or treat a phone number as verified without verification.
+
+### Role types
+
+1. Resident.
+2. Water-service organisation.
+3. Property manager.
+4. Water vendor.
+5. Platform administrator.
+
+Use secure role-based access control.
+
+A user must not be able to grant themselves an elevated role by changing frontend state or editing a request.
+
+Organisation accounts must be approved by an administrator before they can publish notices represented as official or organisation-verified.
+
+A property manager should only manage the buildings and tenant communications assigned to their account.
+
+A vendor should only manage their own vendor profile and listings.
+
+A resident should only access and modify their own household information and permitted reports.
+
+Administrators should have a separate, protected interface.
+
+Do not use a public registration form that grants administrator privileges.
+
+## 9. RESIDENT DASHBOARD
+
+Create a useful dashboard for residents and tenants.
+
+### Dashboard overview
+Display:
+- Welcome message.
+- Selected neighbourhood or service area.
+- Current relevant notices, if available.
+- Most recent supply update.
+- Household water remaining, if recorded.
+- Estimated days of water remaining.
+- Current-period water expenditure.
+- Active issue reports.
+- SMS subscription status.
+
+If information is missing, explain how to add it. Do not invent live water conditions.
+
+### Resident navigation
+- Overview.
+- Water Notices.
+- My Water Reserve.
+- My Water Budget.
+- Find Water Vendors.
+- Report a Water Issue.
+- SMS Alerts.
+- My Profile.
+- Help and Support.
+
+### Water notices
+Allow residents to:
+- View notices relevant to their selected area.
+- Search or filter by neighbourhood, date, notice type, and status.
+- Read the full notice.
+- See the source organisation.
+- See publication and update timestamps.
+- See whether the notice is official, organisation-reported, community-reported, or unverified.
+- View expected interruption and restoration times when provided.
+- See a clear indication when a notice is outdated or resolved.
+
+Only display restoration estimates that have been supplied by an authorised or clearly identified source.
+
+### My water reserve
+Residents should be able to create and edit water-storage records.
+
+Fields:
+- Container or storage name.
+- Storage type.
+- Maximum capacity in litres.
+- Current estimated amount in litres.
+- Optional notes.
+- Last updated time.
+
+Support multiple storage containers.
+
+Calculate total available water as the sum of the current amounts in active storage records.
+
+Validate that amounts cannot be negative and cannot exceed a container's configured capacity.
+
+Allow residents to record water added or consumed, or update the current estimate manually.
+
+### Consumption estimate
+Let residents set or estimate average daily household water use.
+
+Calculate:
+
+Estimated days remaining = current available water / estimated daily water use.
+
+If the daily use is missing or zero, show a helpful message rather than an invalid number.
+
+Clearly label this as an estimate. Explain that actual consumption may change.
+
+### My water budget
+Provide a form to record water-related expenses.
+
+Categories:
+- Utility water bill.
+- Vendor water purchase.
+- Water-bowser delivery.
+- Other water-related cost.
+
+Fields:
+- Amount in Kenyan shillings (KES).
+- Date.
+- Category.
+- Optional supplier.
+- Optional quantity in litres.
+- Optional notes.
+
+Features:
+- Add, edit, and delete personal records.
+- Filter by date range and category.
+- Calculate total spending over a selected period.
+- Set a monthly water budget.
+- Show remaining budget or amount exceeded.
+- Display a simple chart of spending over time.
+- Display category breakdowns.
+
+Use actual saved data for calculations.
+
+Do not process payments in the initial version.
+
+## 10. WATER VENDOR DIRECTORY
+
+Create a vendor directory accessible to residents.
+
+Each vendor profile may include:
+- Business name.
+- Contact phone number.
+- Service areas.
+- Delivery options.
+- Indicative price.
+- Pricing unit, such as per litre, container, or delivery.
+- Availability status.
+- Last-updated timestamp.
+- Verification status.
+- Description and operating details.
+
+Residents should be able to search and filter vendors by:
+- Area served.
+- Delivery availability.
+- Price, where comparable.
+- Verification status.
+
+Never compare prices with incompatible units without explaining the difference.
+
+Show when vendor information was last updated.
+
+Do not imply that a vendor is available right now unless the vendor has recently confirmed that information.
+
+### Vendor dashboard
+Allow vendors to:
+- Create or update their business profile.
+- Submit service areas.
+- Update indicative prices.
+- Update reported availability.
+- Manage their own listings.
+
+Require administrative approval before displaying a vendor as verified.
+
+Avoid collecting unnecessary sensitive business information.
+
+## 11. WATER-SUPPLY ORGANISATION DASHBOARD
+
+Build a dedicated dashboard for approved water-service organisations.
+
+The organisation dashboard should support:
+- Organisation profile.
+- Service areas.
+- Publish notice.
+- Manage notices.
+- Update notice.
+- Mark notice resolved or cancelled.
+- View relevant community reports.
+- Review incident history.
+- View notification activity.
+- View basic operational statistics.
+- Export permitted records.
+
+### Create-notice form
+Fields:
+- Notice title.
+- Notice type.
+- Affected areas.
+- Description.
+- Planned start time, where applicable.
+- Expected restoration time, where available.
+- Source reference or source URL, where applicable.
+- Publication status.
+- Notification options.
+- Optional internal notes.
+
+Notice types:
+- Planned interruption.
+- Unexpected interruption.
+- Supply schedule update.
+- Restoration update.
+- Maintenance notice.
+- Water-quality advisory.
+- General water-service announcement.
+
+Use statuses such as:
+- Draft.
+- Published.
+- Updated.
+- Resolved.
+- Cancelled.
+
+Make clear that "Published" means the notice has been published by the authorised account, not necessarily that the physical interruption has been independently confirmed.
+
+For official utility notices, preserve the organisation identity and relevant source details.
+
+Record the author, publication time, and update history.
+
+Only authorised users from an organisation should manage its notices.
+
+Do not allow one organisation to modify another organisation's records.
+
+## 12. PROPERTY MANAGER DASHBOARD
+
+Create a dedicated property manager dashboard.
+
+Property managers should be able to:
+- Create and manage approved building profiles.
+- Select the areas or buildings they manage.
+- Publish building-level water updates.
+- Record known tank or reserve information.
+- Notify associated tenants of relevant interruptions.
+- Record planned water deliveries.
+- Review building-related reports.
+- Maintain a history of communications.
+
+Suggested building fields:
+- Building name.
+- General location or estate.
+- Building description.
+- Manager contact.
+- Optional number of residential units.
+- Optional tank capacity and estimated reserve.
+
+Do not expose residents' private household records to property managers.
+
+Property managers may only publish information about the buildings assigned to them.
+
+Clearly distinguish building-level information from utility-confirmed area-wide notices.
+
+Do not assume a property's tank status is known unless it has been entered or reported by an authorised user.
+
+## 13. COMMUNITY WATER-ISSUE REPORTING
+
+Allow residents to report a water-related issue.
+
+Fields:
+- Issue category.
+- Affected neighbourhood or permitted location.
+- Description.
+- Date and time observed.
+- Optional photo, if implemented.
+- Optional reference to an existing notice.
+
+Issue categories:
+- Unexpected water interruption.
+- Supply has not returned.
+- Schedule differs from actual supply.
+- Suspected leak or wastage.
+- Water quality concern.
+- Other water-related issue.
+
+Report statuses:
+- Submitted.
+- Under review.
+- Confirmed.
+- Referred.
+- Resolved.
+- Rejected, with an explanation.
+
+Features:
+- Residents can view their own reports.
+- Authorised staff can review reports within their scope.
+- Duplicate reports may be associated with the same incident.
+- Moderators can flag suspicious or abusive reports.
+- Important changes must be recorded in an audit history.
+
+Do not automatically classify a report as an official utility notice.
+
+For water-quality concerns, display suitable guidance to contact the responsible utility or relevant public-health authority. Do not claim that MajiWatch can test water quality or diagnose contamination.
+
+Do not make residents' phone numbers or personal information publicly visible.
+
+## 14. SMS NOTIFICATION SYSTEM — A CORE REQUIREMENT
+
+The SMS feature is essential because MajiWatch is intended to serve people who may not have internet access.
+
+Design the SMS integration as a backend service.
+
+### SMS subscription management
+Residents should be able to:
+- Register or verify a phone number through a supported verification workflow.
+- Select a neighbourhood or service area.
+- Subscribe to relevant alerts.
+- Select available alert categories.
+- Pause notifications.
+- Unsubscribe.
+- View their current subscription status.
+
+Do not send non-essential messages to people who have not consented.
+
+### SMS events
+The system should support sending SMS notifications for:
+1. A newly published relevant supply notice.
+2. A material change to an existing notice.
+3. A restoration update.
+4. A relevant building-level update from an authorised property manager.
+5. Optional replies or acknowledgements if supported by the selected gateway.
+
+Do not repeatedly send duplicate alerts for an unchanged notice.
+
+Use a notification identifier and deduplication logic.
+
+### Example SMS template
+
+"MAJIWATCH: Planned interruption reported for [AREA] on [DATE], from [START TIME]. Expected restoration: [RESTORATION TIME, IF PROVIDED]. Source: [ORGANISATION]. Updates: [SHORT URL, IF AVAILABLE]."
+
+Use concise messages. Omit fields that are unknown rather than inventing information.
+
+Identify the source and indicate when the notice is a report rather than an officially confirmed notice.
+
+### Technical SMS requirements
+- Implement an SMS provider adapter.
+- Store credentials only in backend environment variables.
+- Create a notification service that can be called when a notice is published or materially updated.
+- Store notification event records.
+- Record the intended recipient, related notice, creation time, provider response, and delivery status when available.
+- Implement retries for temporary failures with reasonable limits.
+- Avoid retrying permanent failures indefinitely.
+- Handle rate limits and provider errors.
+- Deduplicate notifications.
+- Provide a test mode that does not send real messages.
+- Allow authorised administrators to inspect notification status.
+- Document how to configure the selected provider.
+
+Use a real SMS provider only when valid credentials and the required permissions are configured.
+
+Never pretend an SMS was sent when the application is operating in demonstration mode.
+
+Clearly label simulated notifications as simulated.
+
+### Integration with existing water-company SMS systems
+Design for future integrations through documented APIs, approved data feeds, or agreed data exchange.
+
+Do not assume that MajiWatch can automatically read, intercept, or reuse SMS messages sent by an existing utility.
+
+Direct integration requires the utility's authorisation and technical cooperation.
+
+The first version should allow an authorised user to enter a verified notice manually and trigger MajiWatch notifications through its configured SMS gateway.
+
+## 15. OPTIONAL TWO-WAY SMS AND USSD — FUTURE-READY DESIGN
+
+Keep the backend modular so that two-way SMS or USSD can be added later.
+
+Possible future interactions:
+- A resident sends a keyword to request the latest supply status for a registered area.
+- A resident submits a simple water-issue report by SMS.
+- A resident uses a USSD menu to select an area or subscription preference.
+- The system sends a concise response based on available records.
+
+Do not implement an unsupported shortcode or claim that a USSD service is live without a provider and approved configuration.
+
+Prioritise outbound SMS alerts in the first version.
+
+## 16. ADMINISTRATOR DASHBOARD
+
+Create a protected administration interface.
+
+Sections:
+- Overview.
+- User management.
+- Organisation approvals.
+- Vendor approvals.
+- Notice oversight.
+- Issue reports.
+- SMS notification logs.
+- Audit history.
+- Area and neighbourhood management.
+- System settings.
+
+### Admin overview
+Show real metrics from saved records, such as:
+- Total registered users.
+- Active organisation accounts.
+- Published notices.
+- Open issue reports.
+- SMS events by status.
+- Approved vendor listings.
+
+Do not fabricate statistics.
+
+Use empty states when the database has no records.
+
+### Administration controls
+Administrators should be able to:
+- Approve or reject organisation applications.
+- Approve or reject vendor listings.
+- Suspend accounts where justified.
+- Review suspicious reports.
+- View notice and notification histories.
+- Manage service areas.
+- Export permitted data.
+
+Record significant administrative actions in an audit log.
+
+Require confirmation for destructive actions.
+
+Do not expose passwords, secrets, or unnecessary personal information in the admin interface.
+
+## 17. NOTICE VERIFICATION AND INFORMATION QUALITY
+
+Build a clear verification model.
+
+Possible source types:
+- Official utility notice.
+- Approved organisation notice.
+- Property manager report.
+- Vendor-reported information.
+- Community report.
+- Administrator-reviewed report.
+
+Possible verification states:
+- Official source.
+- Organisation-verified.
+- Under review.
+- Community-reported.
+- Unverified.
+- Outdated.
+- Resolved.
+
+Implement a sensible model without confusing source type, verification state, and incident status.
+
+For every published notice, preserve:
+- Source organisation or reporter type.
+- Author account.
+- Creation timestamp.
+- Publication timestamp.
+- Last update timestamp.
+- Current status.
+- Relevant update history.
+
+Only an authorised organisation should be able to publish information under its own verified identity.
+
+An administrator should be able to flag, moderate, or annotate a notice without falsely changing its original source.
+
+Do not generate artificial real-time supply data or predict outages without supporting data.
+
+## 18. DATABASE DESIGN
+
+Design a structured Firestore data model.
+
+Suggested collections:
+
+### users
+- uid
+- displayName
+- email, where available
+- phoneNumber, with appropriate access controls
+- role
+- accountStatus
+- preferredAreaId
+- smsConsent
+- smsConsentAt
+- createdAt
+- updatedAt
+
+### organisations
+- organisationId
+- name
+- organisationType
+- description
+- serviceAreas
+- contactInformation
+- approvalStatus
+- createdBy
+- createdAt
+- updatedAt
+
+### notices
+- noticeId
+- title
+- description
+- noticeType
+- affectedAreaIds
+- sourceType
+- sourceOrganisationId, where applicable
+- sourceReference
+- createdBy
+- verificationStatus
+- publicationStatus
+- plannedStartAt
+- expectedRestorationAt
+- createdAt
+- publishedAt
+- updatedAt
+- resolvedAt
+
+### noticeHistory
+- historyId
+- noticeId
+- actorUid
+- action
+- previousValues, where appropriate
+- updatedValues, where appropriate
+- timestamp
+
+### subscriptions
+- subscriptionId
+- userId
+- phoneNumberReference or appropriately protected phone number
+- areaIds
+- alertCategories
+- consentStatus
+- createdAt
+- updatedAt
+
+### notificationEvents
+- notificationId
+- noticeId
+- recipientReference
+- channel
+- provider
+- status
+- providerMessageId, where available
+- createdAt
+- sentAt
+- deliveredAt, where available
+- errorCategory, where applicable
+
+### waterStorage
+- storageId
+- userId
+- name
+- storageType
+- capacityLitres
+- currentAmountLitres
+- lastUpdatedAt
+- createdAt
+
+### householdWaterUsage
+- usageId
+- userId
+- date
+- quantityLitres, if recorded
+- usageType
+- createdAt
+
+### householdExpenses
+- expenseId
+- userId
+- category
+- amountKes
+- date
+- quantityLitres, where applicable
+- supplierName, where applicable
+- notes
+- createdAt
+- updatedAt
+
+### householdBudgets
+- budgetId
+- userId
+- period
+- amountKes
+- createdAt
+- updatedAt
+
+### vendors
+- vendorId
+- businessName
+- contactDetails
+- serviceAreas
+- deliveryOptions
+- pricing
+- availabilityStatus
+- lastAvailabilityUpdateAt
+- verificationStatus
+- createdBy
+- createdAt
+- updatedAt
+
+### buildings
+- buildingId
+- managerUid
+- name
+- generalLocation
+- serviceAreaId
+- optionalCapacityInformation
+- createdAt
+- updatedAt
+
+### buildingUpdates
+- updateId
+- buildingId
+- managerUid
+- title
+- description
+- updateType
+- status
+- createdAt
+- updatedAt
+
+### issueReports
+- reportId
+- reporterUid
+- category
+- areaId
+- description
+- observedAt
+- status
+- assignedOrganisationId, where applicable
+- createdAt
+- updatedAt
+- resolutionNotes, where appropriate
+
+### auditLogs
+- logId
+- actorUid
+- action
+- entityType
+- entityId
+- timestamp
+- relevantChangeSummary
+
+You may adjust this schema if you can justify a better design.
+
+Use Firestore document IDs, server timestamps, appropriate indexes, and data validation.
+
+Avoid storing unnecessary personal information.
+
+Design query patterns carefully so that the application does not need to download entire collections to display a dashboard.
+
+## 19. SECURITY REQUIREMENTS
+
+Security is essential because the application contains contact information, household records, and organisational data.
+
+Implement:
+- Server-side validation.
+- Authentication checks.
+- Role-based authorization.
+- Organisation and building ownership checks.
+- Firestore security rules.
+- Protected backend routes.
+- Rate limiting on sensitive endpoints.
+- Secure handling of secrets.
+- Safe error handling without exposing internal details.
+- Input sanitisation where appropriate.
+- Audit logging for sensitive actions.
+- Pagination and sensible query limits.
+- Safe upload validation if uploads are implemented.
+- Appropriate CORS configuration.
+
+Do not rely on frontend role checks as the only security measure.
+
+The backend must verify the Firebase ID token and derive the user's identity from the verified token.
+
+The client must not be able to choose another user's ID and thereby access or change their records.
+
+Use least-privilege access.
+
+Provide Firestore security rules that prevent users from modifying their own role or approval status.
+
+Keep notification-provider credentials exclusively on the backend.
+
+Implement appropriate protection against duplicate submissions, unauthorised notice publication, and unauthorised SMS sends.
+
+Do not log passwords, access tokens, or SMS credentials.
+
+## 20. PRIVACY AND CONSENT
+
+Implement privacy-conscious handling of personal data.
+
+- Collect only the information necessary for the system.
+- Explain the purpose of collecting phone numbers.
+- Record consent for SMS alerts.
+- Provide a clear unsubscribe mechanism.
+- Restrict access to household expenses and reserve information.
+- Do not make residents' phone numbers publicly visible.
+- Do not expose household data to vendors or unrelated organisations.
+- Provide basic privacy and terms pages.
+- Support account-data access or deletion requests through an appropriate workflow.
+- Keep only the records required for legitimate operational, security, and legal purposes.
+- Document how audit records and other retained data are handled.
+
+Ensure the design supports applicable Kenyan data-protection obligations. Do not claim legal compliance has been certified merely because these features exist.
+
+## 21. API DESIGN
+
+Implement clean REST endpoints with consistent response formats and appropriate HTTP status codes.
+
+Suggested endpoint groups:
+
+### Authentication and profiles
+- GET /api/me
+- PATCH /api/me
+
+Use Firebase Authentication for identity verification. Do not create an insecure parallel password system.
+
+### Notices
+- GET /api/notices
+- GET /api/notices/:noticeId
+- POST /api/notices
+- PATCH /api/notices/:noticeId
+- POST /api/notices/:noticeId/publish
+- POST /api/notices/:noticeId/resolve
+
+### Subscriptions and notifications
+- GET /api/subscriptions
+- POST /api/subscriptions
+- PATCH /api/subscriptions/:subscriptionId
+- POST /api/subscriptions/:subscriptionId/unsubscribe
+- GET /api/notifications
+
+### Household water
+- GET /api/water-storage
+- POST /api/water-storage
+- PATCH /api/water-storage/:storageId
+- DELETE /api/water-storage/:storageId
+
+### Household expenses
+- GET /api/expenses
+- POST /api/expenses
+- PATCH /api/expenses/:expenseId
+- DELETE /api/expenses/:expenseId
+
+### Vendors
+- GET /api/vendors
+- GET /api/vendors/:vendorId
+- POST /api/vendors
+- PATCH /api/vendors/:vendorId
+
+### Issue reports
+- GET /api/reports
+- POST /api/reports
+- GET /api/reports/:reportId
+- PATCH /api/reports/:reportId
+
+### Organisation and administration
+Implement additional endpoints for organisation management, property management, approvals, and administrative operations.
+
+These endpoints are a starting point. Add or modify endpoints as necessary.
+
+Enforce authorization on every protected route.
+
+Use pagination, query filters, and validation.
+
+Do not leave critical endpoints as empty handlers or fake success responses.
+
+## 22. DEMONSTRATION MODE
+
+Provide a clearly labelled demonstration mode for development and presentations.
+
+Demonstration mode should allow the developer to:
+- View sample supply notices.
+- Explore the different dashboards.
+- Test the reserve and expense calculations.
+- Preview SMS templates.
+- Simulate notice publication.
+- View simulated notification events.
+
+All sample records must be identifiable as demonstration data.
+
+Never mix simulated notifications with real delivery claims.
+
+Never silently switch from a failed real integration to pretending it succeeded.
+
+If the SMS provider is not configured, show an explicit status such as "SMS simulation mode — no real message sent."
+
+If Firebase is not configured, provide setup instructions and, if practical, a local development alternative without weakening the production security model.
+
+Do not create a publicly accessible demo administrator account with a known password.
+
+## 23. ERROR HANDLING AND RELIABILITY
+
+Implement:
+- Loading indicators.
+- Empty states.
+- Form validation messages.
+- Network error messages.
+- Permission-denied messages.
+- SMS provider error handling.
+- Duplicate-notice and duplicate-notification prevention.
+- Appropriate retries for temporary provider failures.
+- Confirmation prompts for destructive actions.
+- Clear success feedback only after the operation succeeds.
+
+Use a consistent logging strategy.
+
+Do not expose sensitive stack traces to end users.
+
+## 24. TESTING REQUIREMENTS
+
+Create useful tests for important functions.
+
+At minimum, test:
+- Authentication and route protection.
+- Role-based permissions.
+- Organisation ownership checks.
+- Notice creation and publication.
+- Notice update history.
+- SMS notification triggering.
+- Notification deduplication.
+- Simulation mode versus real delivery.
+- Water-reserve calculations.
+- Expense totals and budget calculations.
+- Vendor approval rules.
+- Issue-report permissions.
+- Invalid input and error handling.
+
+Add tests for the most important backend routes and calculation functions.
+
+Run available tests and fix failures.
+
+Do not claim that tests passed unless they were actually run.
+
+## 25. PROJECT STRUCTURE AND DOCUMENTATION
+
+Use a clear, maintainable folder structure. For example:
+
+- client/
+  - src/
+    - components/
+    - pages/
+    - layouts/
+    - hooks/
+    - services/
+    - types/
+    - utils/
+- server/
+  - src/
+    - routes/
+    - controllers/
+    - services/
+    - middleware/
+    - validators/
+    - config/
+    - types/
+- shared/, if useful
+- tests/
+- docs/
+
+Adapt the structure if a simpler arrangement suits the project better.
+
+Create:
+- README.md.
+- `.env.example` files.
+- Firebase setup instructions.
+- Firestore security rules.
+- Required Firestore indexes.
+- SMS provider setup instructions.
+- API documentation.
+- Database schema documentation.
+- Instructions for local development.
+- Instructions for production deployment.
+- A clear list of implemented versus future features.
+
+Include commands to install dependencies, run the development server, run tests, and build the production version.
+
+Ensure the project can be started using the documented commands.
+
+## 26. IMPLEMENTATION STRATEGY
+
+Build the project in stages, but keep the architecture consistent.
+
+### Stage 1: Foundation
+- Inspect the project.
+- Set up the frontend and backend.
+- Configure TypeScript and routing.
+- Establish design tokens and reusable components.
+- Implement authentication and role-based route protection.
+
+### Stage 2: Core application
+- Build the landing page.
+- Build resident, organisation, property manager, vendor, and administrator dashboards.
+- Implement notices and service-area filtering.
+- Connect the database.
+- Add household reserve and expense tracking.
+
+### Stage 3: Collaboration features
+- Implement organisation approvals.
+- Implement vendor listings.
+- Implement property updates.
+- Implement community issue reports.
+- Add verification statuses and audit history.
+
+### Stage 4: SMS
+- Build the SMS provider adapter.
+- Create SMS subscription management.
+- Implement notification events.
+- Add templates and deduplication.
+- Add test mode and clear delivery statuses.
+- Document configuration of the real provider.
+
+### Stage 5: Security and quality
+- Review backend authorization.
+- Review Firestore rules.
+- Test important user journeys.
+- Fix broken links, buttons, forms, and navigation.
+- Run available tests and production builds.
+
+### Stage 6: Delivery
+- Provide setup instructions.
+- Document external credentials required.
+- Identify any remaining manual configuration.
+- Summarise implemented features and limitations.
+
+Do not stop after Stage 1 and claim the project is complete.
+
+If the environment has limited execution time, prioritise completing the core flows end-to-end before polishing secondary features.
+
+## 27. DEFINITION OF DONE
+
+The application should not be considered complete until the following core journeys work.
+
+### Journey A: Resident
+1. A resident creates an account and signs in.
+2. The resident selects a neighbourhood.
+3. The resident views notices relevant to that area.
+4. The resident records their water reserves.
+5. The resident sees a valid estimated-days-remaining calculation.
+6. The resident records expenses and sees updated totals.
+7. The resident manages SMS subscription preferences.
+8. The resident submits and views an issue report.
+
+### Journey B: Organisation
+1. An organisation applies for an account.
+2. An administrator reviews and approves the account.
+3. An authorised representative signs in.
+4. The representative creates a water notice.
+5. The representative publishes or updates the notice.
+6. The notice appears to eligible residents.
+7. The system records the notice history.
+8. The SMS notification workflow is triggered.
+9. The resulting notification status is displayed accurately.
+
+### Journey C: Vendor
+1. A vendor creates or submits a profile.
+2. The administrator reviews the listing.
+3. The vendor updates its service areas and indicative prices.
+4. Residents can search for the approved listing.
+5. The system displays the last-updated time and verification status.
+
+### Journey D: Property manager
+1. An approved property manager signs in.
+2. The manager creates or manages an assigned building.
+3. The manager publishes a building-level update.
+4. The update is visible only to the appropriate users.
+5. The communication history is retained.
+
+### Journey E: Administrator
+1. The administrator signs in securely.
+2. The administrator reviews organisation and vendor applications.
+3. The administrator manages reports and account statuses.
+4. The administrator reviews notice and notification histories.
+5. Sensitive operations are recorded in the audit log.
+
+### Journey F: SMS accessibility
+1. An eligible resident consents to receive alerts.
+2. A relevant notice is published.
+3. The system creates the correct notification event.
+4. The configured SMS adapter is called.
+5. The system records the provider response.
+6. Delivery status is displayed accurately when available.
+7. Duplicate alerts are prevented.
+8. Simulation mode is clearly distinguished from actual delivery.
+
+## 28. FINAL INSTRUCTIONS
+
+Now inspect the current development environment and begin implementing MajiWatch.
+
+Make sensible decisions without asking unnecessary questions. If an important external credential or integration is unavailable, continue building the parts that can be implemented and document what is needed.
+
+Prioritise functionality, security, accessibility, and consistency over flashy visuals.
+
+Do not:
+- Deliver only a design mockup.
+- Use fake API calls that always return success.
+- Hardcode credentials.
+- Pretend that utility partnerships already exist.
+- Fabricate live water-supply information.
+- Claim SMS messages were sent when they were only simulated.
+- Expose private household or organisational data.
+- Leave essential buttons non-functional.
+- Claim a feature is complete if it is only a placeholder.
+
+When finished, provide:
+1. A summary of what was built.
+2. The folder and file structure.
+3. Exact commands to run the project.
+4. Required environment variables and external service setup.
+5. How to configure Firebase.
+6. How to configure SMS sending.
+7. How to test each user role.
+8. Which features work end-to-end.
+9. Which features require credentials, external approval, or further implementation.
+10. Any known limitations.
+
+**Begin by inspecting the project, establishing the architecture, and implementing the application end-to-end.**

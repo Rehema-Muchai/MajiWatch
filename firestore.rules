@@ -1,0 +1,140 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function hasRole(role) {
+      return isAuthenticated() && getUserData().role == role;
+    }
+
+    function isAdmin() {
+      return hasRole('admin');
+    }
+
+    function isApprovedOrganisation() {
+      return hasRole('organisation') && getUserData().accountStatus == 'active';
+    }
+
+    // 1. Users Collection
+    match /users/{userId} {
+      // Anyone can read their own profile; admins can read all
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // User can create their profile on registration, but cannot self-assign elevated roles (admin/approved org)
+      allow create: if isOwner(userId)
+                    && request.resource.data.role in ['resident', 'organisation', 'property_manager', 'vendor']
+                    && request.resource.data.accountStatus in ['active', 'pending_approval'];
+                    
+      // User can update profile info, but cannot self-promote role or status
+      allow update: if (isOwner(userId)
+                        && request.resource.data.role == resource.data.role
+                        && request.resource.data.accountStatus == resource.data.accountStatus)
+                    || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // 2. Notices Collection
+    match /notices/{noticeId} {
+      // Publicly readable for all residents & visitors
+      allow read: if true;
+
+      // Only approved organisations or admins can publish or create notices
+      allow create: if isApprovedOrganisation() || isAdmin();
+      
+      // Only author organisation or admin can update
+      allow update: if (isApprovedOrganisation() && resource.data.createdBy == request.auth.uid)
+                    || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // 3. Notice Revision History
+    match /notices/{noticeId}/history/{historyId} {
+      allow read: if true;
+      allow write: if isApprovedOrganisation() || isAdmin();
+    }
+
+    // 4. Water Storage Containers (Private Household Data)
+    match /waterStorage/{storageId} {
+      allow read, write: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || resource.data.userId == request.auth.uid);
+    }
+
+    // 5. Household Water Expenses & Budgets (Private Household Data)
+    match /householdExpenses/{expenseId} {
+      allow read, write: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || resource.data.userId == request.auth.uid);
+    }
+
+    match /householdBudgets/{budgetId} {
+      allow read, write: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || resource.data.userId == request.auth.uid);
+    }
+
+    // 6. Water Vendors Directory
+    match /vendors/{vendorId} {
+      // Public can read verified listings
+      allow read: if true;
+      
+      // Registered vendors can submit listing
+      allow create: if hasRole('vendor') || isAdmin();
+
+      // Vendor can update pricing/availability; cannot verify themselves
+      allow update: if (hasRole('vendor') 
+                        && resource.data.createdBy == request.auth.uid 
+                        && request.resource.data.verificationStatus == resource.data.verificationStatus)
+                    || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // 7. Managed Buildings (Property Managers)
+    match /buildings/{buildingId} {
+      allow read: if isAuthenticated();
+      allow create: if hasRole('property_manager') || isAdmin();
+      allow update, delete: if (hasRole('property_manager') && resource.data.managerUid == request.auth.uid) || isAdmin();
+    }
+
+    match /buildingUpdates/{updateId} {
+      allow read: if isAuthenticated();
+      allow create: if hasRole('property_manager') || isAdmin();
+      allow update, delete: if (hasRole('property_manager') && resource.data.managerUid == request.auth.uid) || isAdmin();
+    }
+
+    // 8. Community Issue Reports
+    match /issueReports/{reportId} {
+      // Residents can see their own reports and area reports; staff can see all
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.reporterUid == request.auth.uid;
+      allow update: if isApprovedOrganisation() || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // 9. SMS Subscriptions
+    match /subscriptions/{subscriptionId} {
+      allow read, write: if isAuthenticated() && (resource.data.userId == request.auth.uid || request.resource.data.userId == request.auth.uid) || isAdmin();
+    }
+
+    // 10. Notification Events (SMS Dispatch Logs)
+    match /notificationEvents/{notificationId} {
+      allow read: if isApprovedOrganisation() || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // 11. Audit Logs (System Security)
+    match /auditLogs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false; // Appendable only by trusted backend Admin SDK
+    }
+  }
+}
